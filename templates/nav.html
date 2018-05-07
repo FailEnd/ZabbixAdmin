@@ -1,0 +1,64 @@
+
+<div class="left side-menu">
+    <div class="sidebar-inner slimscrollleft">
+          <!-- User -->
+                    <div class="user-box">
+                        <div class="user-img">
+                            <img src="/static/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                            <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+                        </div>
+                        <h5><a href="#">欢迎</a> </h5>
+                        <ul class="list-inline">
+
+                            <li class="list-inline-item">
+                                <a href="{% url 'logout' %}" class="text-custom">
+                                    <i class="mdi mdi-power"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End User -->
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="index.html" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> 仪表盘 </span> </a>
+                </li>
+                <li class="">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span>主机和主机组</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="{{ groupACT }}">
+                        <li class="{{ addGroupACT }}"><a href="a.html">添加主机组</a></li>
+                        <li class="{{ currGroupACT }}"><a href="{% url 'zabbix:group-list' %}">当前主机组</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-texture"></i><span>模板管理</span><span class="menu-arrow"></span> </a>
+                    <ul class="list-unstyled" style="{{ tempACT }}">
+                        <li class="{{ localtempACT }}"><a href="a.html">本地模板</a></li>
+                        <li class="{{ addtempACT }}"><a href="a.html">添加模板</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-chart-donut-variant"></i> <span>用户管理</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="{{ userACT }}">
+                        <li class="{{ usergroupACT }}"><a href="a.html">用户组</a></li>
+                        <li class="{{ curruserACT }}"><a href="a.html">当前用户</a></li>
+                        <li class="{{ adduserACT }}"><a href="a.html">添加用户</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i> <span>系统管理</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="{{ systemACT }}">
+                        <li class="{{ localuserACT }}"><a href="{% url 'sys:user' %}">本地用户</a></li>
+                        <li class="{{ addlocaluserACT }}"><a href="a.html">Zabbix数据源</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>

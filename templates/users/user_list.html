@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        {% include '_message.html' %}
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive" data-pattern="priority-columns">
+                                <div class="table-wrapper">
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group focus-btn-group">
+                                            <a href="{% url 'sys:user-create' %}">
+                                                <button class="btn btn-icon waves-effect waves-light btn-success m-b-5">
+                                                    <span class="fa fa-plus"></span></button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="tech-companies-1" class="table  table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th><i></i>用户名</th>
+                                        <th ><i></i>邮箱地址</th>
+                                        <th ><i></i>是否激活</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in result %}
+                                        <tr>
+                                            <td>{{ user.username }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.is_active }}</td>
+                                            <td>
+                                                <a class="btn btn-icon waves-effect waves-light btn-custom m-b-5" href="{% url 'sys:user-update' user.id %}"><i class="fa fa-pencil"></i></a>
+                                                <button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="doDelete({{ user.id }})"> <i class="fa fa-remove"></i> </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% include 'page.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div> <!-- container -->
+    </div>
+    <script>
+    function doDelete(user_id) {
+        swal({
+            title: "你确定删除吗？",
+            text: "这个用户将被删除",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "继续",
+            closeOnConfirm: false
+        }, function() {
+            $.ajax({
+                url: '{% url 'sys:user-delete' %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {'user_id':user_id,csrfmiddlewaretoken:'{{ csrf_token }}'},
+                success: function (data) {
+                    var result = data['isSuccess'];
+                    if (result){
+                        swal({
+                            title: "删除成功！",
+                            text: "1秒后自动关闭。",
+                            timer: 1000,
+                            showConfirmButton: false
+                        },function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    </script>
+{% endblock %}

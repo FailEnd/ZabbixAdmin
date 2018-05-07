@@ -1,0 +1,24 @@
+
+<div id="app" style="height: 30px;">
+    <span>每页</span>
+    <select name="" onchange="location.href='?display_counter=' + this.value;" style="width: 50px;height: 26px;">
+        <option value="20" {% ifequal display_counter '20' %}selected{% endifequal %}>20</option>
+        <option value="40" {% ifequal display_counter '40' %}selected{% endifequal %}>40</option>
+        <option value="50" {% ifequal display_counter '50' %}selected{% endifequal %}>50</option>
+        <option value="100" {% ifequal display_counter '100' %}selected{% endifequal %}>100</option>
+    </select>
+    {% if result.has_previous %}
+        <a class="btn fa fa-angle-left" href="?page={{ result.previous_page_number }}" ></a>
+    {% else  %}
+        <a class="btn fa fa-angle-left" disabled="" ></a>
+    {% endif %}
+    <div style="display: inline-block;">
+        <input type="text" value="{{ page_detail }}" style="width: 80px;text-align: center; height: 26px;" />
+    </div>
+    {% if result.has_next %}
+        <a class="btn fa fa-angle-right" href="?page={{ result.next_page_number }}" ></a>
+    {% else  %}
+        <a class="btn fa fa-angle-right" disabled="" ></a>
+    {% endif %}
+    <span>共：{{ counter }}</span>
+</div>

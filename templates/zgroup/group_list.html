@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        {% include '_message.html' %}
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive" data-pattern="priority-columns">
+                                {% csrf_token %}
+                                {#                                <div class="table-wrapper">#}
+                                {#                                    <div class="btn-toolbar">#}
+                                {#                                        <div class="btn-group focus-btn-group">#}
+                                {#                                            <a href="{% url 'sys:user-create' %}">#}
+                                {#                                                <button class="btn btn-icon waves-effect waves-light btn-success m-b-5">#}
+                                {#                                                    <span class="fa fa-plus"></span></button></a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                                <table id="tech-companies-1" class="table  table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>组名</th>
+                                        <th >组ID</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for group in result %}
+                                        <tr>
+                                            <td>{{ group.name }}</td>
+                                            <td>{{ group.groupid }}</td>
+                                            <td>
+                                                {#                                                <a class="btn btn-icon waves-effect waves-light btn-custom m-b-5" href="{% url 'sys:user-update' user.id %}"><i class="fa fa-pencil"></i></a>#}
+                                                <button class="btn btn-icon waves-effect waves-light btn-custom m-b-1" onclick="ChangeGroup({{ group.groupid }})"> <i class="fa fa-pencil"></i> </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% include 'page.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div> <!-- container -->
+    </div>
+    <script>
+        function ChangeGroup(group_id) {
+            swal({
+                    title: "输入新的组名！",
+                    text: "",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "输入新的组名"
+                },
+                function(inputValue){
+                    if (inputValue === false) return false;
+                    if (inputValue === "") {
+                        swal.showInputError("你需要输入一些话！");
+                        return false
+                    }
+                    $.ajax({
+                        url: '{% url 'zabbix:group-change' %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'groupid':group_id,'groupname':inputValue,csrfmiddlewaretoken:'{{ csrf_token }}'},
+                        success: function (data) {
+                            var result = data['isSuccess'];
+                            if (result == true){
+                                swal({
+                                    title: "修改成功！",
+                                    text: "1秒后自动关闭。",
+                                    timer: 1000,
+                                    showConfirmButton: false
+                                },function () {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: "Error!",
+                                    text: data['result'],
+                                    type: "error",
+                                    confirmButtonText: "确定"
+                                });
+                            }
+                        }
+                    });
+                });
+        }
+    </script>
+{% endblock %}
