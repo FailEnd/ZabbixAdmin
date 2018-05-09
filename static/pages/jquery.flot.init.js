@@ -1,5 +1,5 @@
 /**
- * Theme: Adminto Admin Template
+ * Theme: Highdmin - Responsive Bootstrap 4 Admin Dashboard
  * Author: Coderthemes
  * Module/App: Flot-Chart
  */
@@ -13,7 +13,7 @@
 	};
 
 	//creates plot graph
-	FlotChart.prototype.createPlotGraph = function(selector, data1, data2, labels, colors, borderColor, bgColor) {
+	FlotChart.prototype.createPlotGraph = function(selector, data1, data2, data3, labels, colors, borderColor, bgColor) {
 		//shows tooltip
 		function showTooltip(x, y, contents) {
 			$('<div id="tooltip" class="tooltipflot">' + contents + '</div>').css({
@@ -32,6 +32,11 @@
 			data : data2,
 			label : labels[1],
 			color : colors[1]
+		},
+			{
+			data : data3,
+			label : labels[2],
+			color : colors[2]
 		}], {
 			series : {
 				lines : {
@@ -40,14 +45,16 @@
 					lineWidth : 2,
 					fillColor : {
 						colors : [{
-							opacity : 0.4
+							opacity : 0.5
 						}, {
-							opacity : 0.4
+							opacity : 0.5
+						}, {
+							opacity: 0.8
 						}]
 					}
 				},
 				points : {
-					show : false
+					show : true
 				},
 				shadowSize : 0
 			},
@@ -58,12 +65,12 @@
 				borderColor : borderColor,
 				tickColor : "#f9f9f9",
 				borderWidth : 1,
-				labelMargin : 10,
+				labelMargin : 30,
 				backgroundColor : bgColor
 			},
 			legend : {
-				position : "ne",
-				margin : [0, -24],
+				position: "ne",
+				margin : [0, -32],
 				noColumns : 0,
 				labelBoxBorderColor : null,
 				labelFormatter : function(label, series) {
@@ -74,12 +81,14 @@
 				height : 2
 			},
 			yaxis : {
+				axisLabel: "Daily Visits",
 				tickColor : '#f5f5f5',
 				font : {
 					color : '#bdbdbd'
 				}
 			},
 			xaxis : {
+				axisLabel: "Last Days",
 				tickColor : '#f5f5f5',
 				font : {
 					color : '#bdbdbd'
@@ -93,31 +102,138 @@
 					y : 25
 				},
 				defaultTheme : false
+			},
+			splines: {
+				show: true,
+				tension: 0.1, // float between 0 and 1, defaults to 0.5
+				lineWidth: 1 // number, defaults to 2
 			}
 		});
 	},
 	//end plot graph
+
+	//creates plot Dot graph
+	FlotChart.prototype.createPlotDotGraph = function(selector, data1, data2, labelsDot, colorsDot, borderColorDot, bgColorDot) {
+		//shows tooltip
+		function showTooltip(x, y, contents) {
+			$('<div id="tooltip" class="tooltipflot">' + contents + '</div>').css({
+				position : 'absolute',
+				top : y + 5,
+				left : x + 5
+			}).appendTo("body").fadeIn(200);
+		}
+
+
+		$.plot($(selector), [{
+			data : data1,
+			label : labelsDot[0],
+			color : colorsDot[0]
+		}, {
+			data : data2,
+			label : labelsDot[1],
+			color : colorsDot[1]
+		}],
+			{
+			series : {
+				lines : {
+					show : true,
+					fill : false,
+					lineWidth : 3,
+					fillColor : {
+						colors : [{
+							opacity : 0.3
+						}, {
+							opacity : 0.3
+						}]
+					}
+				},
+				curvedLines: {
+					apply: true,
+					active: true,
+					monotonicFit: true
+				},
+				splines: {
+					show: true,
+					tension: 0.4,
+					lineWidth: 5,
+					fill: 0.4
+				}
+			},
+
+			grid : {
+				hoverable : true,
+				clickable : true,
+				borderColor : borderColorDot,
+				tickColor : "#f9f9f9",
+				borderWidth : 1,
+				labelMargin : 10,
+				backgroundColor : bgColorDot
+			},
+			legend : {
+				position : "ne",
+				margin : [0, -32],
+				noColumns : 0,
+				labelBoxBorderColor : null,
+				labelFormatter : function(label, series) {
+					// just add some space to labes
+					return '' + label + '&nbsp;&nbsp;';
+				},
+				width : 30,
+				height : 2
+			},
+			yaxis : {
+				axisLabel: "Gold Price(USD)",
+				tickColor : '#f5f5f5',
+				font : {
+					color : '#bdbdbd'
+				}
+			},
+			xaxis : {
+				axisLabel: "Numbers",
+				tickColor : '#f5f5f5',
+				font : {
+					color : '#bdbdbd'
+				}
+			},
+			tooltip : false,
+		});
+	},
+	//end plot Dot graph
 
 	//creates Pie Chart
 	FlotChart.prototype.createPieGraph = function(selector, labels, datas, colors) {
 		var data = [{
 			label : labels[0],
 			data : datas[0]
-		}, {
-			label : labels[1],
-			data : datas[1]
-		}, {
-			label : labels[2],
-			data : datas[2]
-		}];
+        }, {
+            label: labels[1],
+            data: datas[1]
+        }, {
+            label: labels[2],
+            data: datas[2]
+        }, {
+            label: labels[3],
+            data: datas[3]
+        }, {
+            label: labels[4],
+            data: datas[4]
+        }];
 		var options = {
 			series : {
-				pie : {
-					show : true
+				pie: {
+					show: true,
+					radius: 1,
+					label: {
+						show: true,
+						radius: 1,
+						background: {
+							opacity: 0.2
+						}
+					}
 				}
 			},
 			legend : {
-				show : true
+				show : false
 			},
 			grid : {
 				hoverable : true,
@@ -171,7 +287,7 @@
 				shadowSize : 0, // drawing is faster without shadows
 				lines : {
 					show : true,
-					fill : false,
+					fill : true,
 					lineWidth : 2,
 					steps : false
 				}
@@ -199,13 +315,15 @@
 				}
 			},
 			yaxis : {
+				axisLabel: "Response Time (ms)",
 				min : 0,
 				max : 100,
 				tickColor : '#f5f5f5',
 				color : 'rgba(0,0,0,0.1)'
 			},
 			xaxis : {
-				show : false,
+				axisLabel: "Point Value (1000)",
+				show : true,
 				tickColor : '#f5f5f5'
 			}
 		});
@@ -223,9 +341,12 @@
 		}, {
 			label : labels[2],
 			data : datas[2]
-		}, {
-			label : labels[3],
-			data : datas[3]
+		},{
+            label : labels[3],
+            data : datas[3]
+        }, {
+			label : labels[4],
+			data : datas[4]
 		}];
 		var options = {
 			series : {
@@ -241,8 +362,7 @@
 				},
 				labelBoxBorderColor : null,
 				margin : 50,
-				width : 20,
-				padding : 1
+				width : 20
 			},
 			grid : {
 				hoverable : true,
@@ -256,6 +376,99 @@
 		};
 
 		$.plot($(selector), data, options);
+	},
+	//creates Bar Chart
+	FlotChart.prototype.createStackBarGraph = function(selector, ticks, colors, data) {
+		var options = {
+			bars: {
+				show: true,
+				barWidth: 0.2,
+				fill: 1
+			},
+			grid: {
+				show: true,
+				aboveData: false,
+				labelMargin: 5,
+				axisMargin: 0,
+				borderWidth: 1,
+				minBorderMargin: 5,
+				clickable: true,
+				hoverable: true,
+				autoHighlight: false,
+				mouseActiveRadius: 20,
+				borderColor: '#f5f5f5'
+			},
+			series: {
+				stack: 0
+			},
+			legend: {
+				position: "ne",
+				margin: [0, -32],
+				noColumns: 0,
+				labelBoxBorderColor: null,
+				labelFormatter: function (label, series) {
+					// just add some space to labes
+					return '' + label + '&nbsp;&nbsp;';
+				},
+				width: 30,
+				height: 2
+			},
+			yaxis: ticks.y,
+			xaxis: ticks.x,
+			colors: colors,
+			tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "%s : %y.0",
+				shifts: {
+					x: -30,
+					y: -50
+				}
+			}
+		};
+		$.plot($(selector), data, options);
+	},
+	//creates Line Chart
+	FlotChart.prototype.createLineGraph = function(selector, ticks, colors, data) {
+		var options = {
+			series: {
+				lines: {
+					show: true
+				},
+				points: {
+					show: true
+				}
+			},
+			legend : {
+				position : "ne",
+				margin : [0, -32],
+				noColumns : 0,
+				labelBoxBorderColor : null,
+				labelFormatter : function(label, series) {
+					// just add some space to labes
+					return '' + label + '&nbsp;&nbsp;';
+				},
+				width : 30,
+				height : 2
+			},
+			yaxis: ticks.y,
+			xaxis: ticks.x,
+			colors: colors,
+			grid: {
+				hoverable: true,
+				borderColor: '#f5f5f5',
+				borderWidth: 1,
+				backgroundColor: '#fff'
+			},
+			tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "%s : %y.0",
+				shifts: {
+					x: -30,
+					y: -50
+				}
+			}
+		};
+		return $.plot($(selector), data, options);
 	},
 	//creates Combine Chart
 	FlotChart.prototype.createCombineGraph = function(selector, ticks, labels, datas) {
@@ -297,14 +510,14 @@
 				borderWidth : 1,
 				borderColor : "#eeeeee"
 			},
-			colors : ['#ff8acc', '#5b69bc', "#10c469"],
+			colors : ['#e3eaef','#f1556c','#02c0ce'],
 			tooltip : true,
 			tooltipOpts : {
 				defaultTheme : false
 			},
 			legend : {
 				position : "ne",
-				margin : [0, -24],
+				margin : [0, -32],
 				noColumns : 0,
 				labelBoxBorderColor : null,
 				labelFormatter : function(label, series) {
@@ -315,12 +528,14 @@
 				height : 2
 			},
 			yaxis : {
+				axisLabel: "Point Value (1000)",
 				tickColor : '#f5f5f5',
 				font : {
 					color : '#bdbdbd'
 				}
 			},
 			xaxis : {
+				axisLabel: "Daily Hours",
 				ticks: ticks,
 				tickColor : '#f5f5f5',
 				font : {
@@ -335,37 +550,47 @@
 	//initializing various charts and components
 	FlotChart.prototype.init = function() {
 		//plot graph data
-		var uploads = [[0, 9], [1, 8], [2, 5], [3, 8], [4, 5], [5, 14], [6, 10],[7, 8], [8, 5], [9, 14], [10, 10]];
-		var downloads = [[0, 5], [1, 12], [2, 4], [3, 3], [4, 12], [5, 11], [6, 14],[7, 12], [8, 8], [9, 4], [10, 8]];
-		var plabels = ["Visits", "Page views"];
-		var pcolors = ['#188ae2', '#10c469'];
+		var uploads = [[0, 13], [1, 13], [2, 14], [3, 62], [4, 13], [5, 10], [6, 56],[7, 13], [8, 12], [9, 20], [10, 48], [11, 16], [12, 14]];
+		var downloads = [[0, 8], [1, 10], [2, 12], [3, 14], [4, 36], [5, 7], [6, 9],[7, 10], [8, 41], [9, 17], [10, 15], [11, 13], [12, 11]];
+		var downloads1 = [[0, 3], [1, 22], [2, 8], [3, 10], [4, 7], [5, 3], [6, 5],[7, 7], [8, 6], [9, 14], [10, 35], [11, 10], [12, 8]];
+		var plabels = ["Bitcoin", "Ethereum", "Litecoin"];
+		var pcolors = ['#02c0ce','#2d7bf4','#f1556c'];
 		var borderColor = '#f5f5f5';
 		var bgColor = '#fff';
-		this.createPlotGraph("#website-stats", uploads, downloads, plabels, pcolors, borderColor, bgColor);
+		this.createPlotGraph("#website-stats", uploads, downloads,downloads1, plabels, pcolors, borderColor, bgColor);
+
+		//plot graph Dot data
+		var uploadsDot = [[0, 2], [1, 4], [2, 7], [3, 9], [4, 6], [5, 3], [6, 10],[7, 8], [8, 5], [9, 14], [10, 10], [11, 10], [12, 8]];
+		var downloadsDot = [[0, 1], [1, 3], [2, 6], [3, 7], [4, 4], [5, 2], [6, 8],[7, 6], [8, 4], [9, 10], [10, 8], [11, 14], [12, 5]];
+		var plabelsDot = ["Bitcoin", "Ethereum"];
+		var pcolorsDot = ['#02c0ce','#e3eaef'];
+		var borderColorDot = '#f5f5f5';
+		var bgColorDot = '#fff';
+		this.createPlotDotGraph("#website-stats1", uploadsDot, downloadsDot, plabelsDot, pcolorsDot, borderColorDot, bgColorDot);
 
 		//Pie graph data
-		var pielabels = ["Series 1", "Series 2", "Series 3"];
-		var datas = [20, 30, 15];
-		var colors = ['#ff8acc', '#5b69bc', "#f9c851"];
+		var pielabels = ["Bitcoin", "Ethereum", "Litecoin", "Bitcoin Cash", "Cardano"];
+		var datas = [48, 30, 15, 32, 26];
+		var colors = ['#02c0ce','#2d7bf4','#e3eaef','#f1556c',"#f9bc0b"];
 		this.createPieGraph("#pie-chart #pie-chart-container", pielabels, datas, colors);
 
 		//real time data representation
-		var plot = this.createRealTimeGraph('#flotRealTime', this.randomData(), ['#71b6f9']);
+		var plot = this.createRealTimeGraph('#flotRealTime', this.randomData(), ['#02c0ce']);
 		plot.draw();
 		var $this = this;
 		function updatePlot() {
 			plot.setData([$this.randomData()]);
 			// Since the axes don't change, we don't need to call plot.setupGrid()
 			plot.draw();
-			setTimeout(updatePlot, $('html').hasClass('mobile-device') ? 1000 : 1000);
+			setTimeout(updatePlot, $('html').hasClass('mobile-device') ? 500 : 500);
 		}
 
 		updatePlot();
 
 		//Donut pie graph data
-		var donutlabels = ["Series 1", "Series 2", "Series 3", "Series 4"];
-		var donutdatas = [35, 20, 10, 20];
-		var donutcolors = ['#188ae2', '#10c469', "#f9c851", "#ff8acc"];
+		var donutlabels = ["Bitcoin", "Ethereum", "Litecoin", "Bitcoin Cash", "Cardano"];
+		var donutdatas = [48, 30, 15, 32, 26];
+		var donutcolors = ['#02c0ce','#2d7bf4','#e3eaef','#f1556c',"#f9bc0b"];
 		this.createDonutGraph("#donut-chart #donut-chart-container", donutlabels, donutdatas, donutcolors);
 
 		//Combine graph data
@@ -377,27 +602,26 @@
 		var combinedatas = [data24Hours, data48Hours, dataDifference];
 
 		this.createCombineGraph("#combine-chart #combine-chart-container", ticks, combinelabels, combinedatas);
-	},
 
-	//init flotchart
-	$.FlotChart = new FlotChart, $.FlotChart.Constructor =
-	FlotChart
+		//bar chart = stacked
+		var stack_ticks = {
+			y: {
+				axisLabel: "Sales Value (USD)",
+				tickColor: '#f5f5f5',
+				font: {
+					color: '#bdbdbd'
+				}
+			},
+			x: {
+				axisLabel: "Last 10 Days",
+				tickColor: '#f5f5f5',
+				font: {
+					color: '#bdbdbd'
+				}
+			}
+		};
 
-}(window.jQuery),
-
-//initializing flotchart
-function($) {
-	"use strict";
-	$.FlotChart.init()
-}(window.jQuery);
-
-$(document).ready(function() {
-
-
-
-	//------------- Ordered bars chart -------------//
-	$(function () {
-		//some data
+		//random data
 		var d1 = [];
 		for (var i = 0; i <= 10; i += 1)
 			d1.push([i, parseInt(Math.random() * 30)]);
@@ -416,7 +640,7 @@ $(document).ready(function() {
 			label: "Series One",
 			data: d1,
 			bars: {
-				order: 3
+				order: 1
 			}
 		});
 		ds.push({
@@ -430,73 +654,59 @@ $(document).ready(function() {
 			label: "Series Three",
 			data: d3,
 			bars: {
-				order: 1
+				order: 3
 			}
 		});
+		this.createStackBarGraph("#ordered-bars-chart", stack_ticks, ['#02c0ce','#2d7bf4','#f1556c'], ds);
 
-		var stack = 0,
-			bars = false,
-			lines = false,
-			steps = false;
 
-		var options = {
-			bars: {
-				show: true,
-				barWidth: 0.2,
-				fill: 1
-			},
-			grid: {
-				show: true,
-				aboveData: false,
-				labelMargin: 5,
-				axisMargin: 0,
-				borderWidth: 1,
-				minBorderMargin: 5,
-				clickable: true,
-				hoverable: true,
-				autoHighlight: false,
-				mouseActiveRadius: 20,
-				borderColor: '#f5f5f5'
-			},
-			series: {
-				stack: stack
-			},
-			legend: {
-				position: "ne",
-				margin: [0, -24],
-				noColumns: 0,
-				labelBoxBorderColor: null,
-				labelFormatter: function (label, series) {
-					// just add some space to labes
-					return '' + label + '&nbsp;&nbsp;';
-				},
-				width: 30,
-				height: 2
-			},
-			yaxis: {
+		//creating line chart
+		var line_ticks = {
+			y: {
+				min: -1.2,
+				max: 1.2,
 				tickColor: '#f5f5f5',
-				font: {
-					color: '#bdbdbd'
+				font : {
+					color : '#bdbdbd'
 				}
 			},
-			xaxis: {
+			x: {
 				tickColor: '#f5f5f5',
-				font: {
-					color: '#bdbdbd'
-				}
-			},
-			colors: ['#188ae2', '#10c469', "#ebeff2"],
-			tooltip: true, //activate tooltip
-			tooltipOpts: {
-				content: "%s : %y.0",
-				shifts: {
-					x: -30,
-					y: -50
+				font : {
+					color : '#bdbdbd'
 				}
 			}
 		};
 
-		$.plot($("#ordered-bars-chart"), ds, options);
-	});
-});
+		//sample data
+		var sin = [],
+			cos = [];
+		var offset = 0;
+		for (var i = 0; i < 12; i += 0.2) {
+			sin.push([i, Math.sin(i + offset)]);
+			cos.push([i, Math.cos(i + offset)]);
+		}
+		var line_data = [
+			{
+				data: sin,
+				label: "Google",
+			},
+			{
+				data: cos,
+				label: "Yahoo"
+			}
+		];
+		this.createLineGraph("#line-chart-alt", line_ticks, ['#02c0ce','#e3eaef'], line_data);
+	},
 
+	//init flotchart
+	$.FlotChart = new FlotChart, $.FlotChart.Constructor =
+	FlotChart
+
+}(window.jQuery),
+
+//initializing flotchart
+function($) {
+	"use strict";
+	$.FlotChart.init()
+}(window.jQuery);

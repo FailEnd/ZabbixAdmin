@@ -1,64 +1,70 @@
+<!--- Sidemenu -->
+<div id="sidebar-menu">
 
-<div class="left side-menu">
-    <div class="sidebar-inner slimscrollleft">
-          <!-- User -->
-                    <div class="user-box">
-                        <div class="user-img">
-                            <img src="/static/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
-                            <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
-                        </div>
-                        <h5><a href="#">欢迎</a> </h5>
-                        <ul class="list-inline">
+    <ul class="metismenu" id="side-menu">
 
-                            <li class="list-inline-item">
-                                <a href="{% url 'logout' %}" class="text-custom">
-                                    <i class="mdi mdi-power"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- End User -->
+        <!--<li class="menu-title">Navigation</li>-->
 
-        <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="index.html" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> 仪表盘 </span> </a>
-                </li>
-                <li class="">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span>主机和主机组</span> <span class="menu-arrow"></span></a>
-                    <ul class="list-unstyled" style="{{ groupACT }}">
-                        <li class="{{ addGroupACT }}"><a href="a.html">添加主机组</a></li>
-                        <li class="{{ currGroupACT }}"><a href="{% url 'zabbix:group-list' %}">当前主机组</a></li>
-                    </ul>
-                </li>
+        <li>
+            <a href="index.html">
+                <i class="fi-air-play"></i><span class="badge badge-danger badge-pill pull-right">7</span> <span> Dashboard </span>
+            </a>
+        </li>
 
-                <li class="sub-menu">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-texture"></i><span>模板管理</span><span class="menu-arrow"></span> </a>
-                    <ul class="list-unstyled" style="{{ tempACT }}">
-                        <li class="{{ localtempACT }}"><a href="a.html">本地模板</a></li>
-                        <li class="{{ addtempACT }}"><a href="a.html">添加模板</a></li>
-                    </ul>
-                </li>
-
-                <li class="sub-menu">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-chart-donut-variant"></i> <span>用户管理</span> <span class="menu-arrow"></span></a>
-                    <ul class="list-unstyled" style="{{ userACT }}">
-                        <li class="{{ usergroupACT }}"><a href="a.html">用户组</a></li>
-                        <li class="{{ curruserACT }}"><a href="a.html">当前用户</a></li>
-                        <li class="{{ adduserACT }}"><a href="a.html">添加用户</a></li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i> <span>系统管理</span> <span class="menu-arrow"></span></a>
-                    <ul class="list-unstyled" style="{{ systemACT }}">
-                        <li class="{{ localuserACT }}"><a href="{% url 'sys:user' %}">本地用户</a></li>
-                        <li class="{{ addlocaluserACT }}"><a href="a.html">Zabbix数据源</a></li>
-                    </ul>
-                </li>
+        <li>
+            <a href="javascript: void(0);"><i class="fi-layers"></i> <span>主机组管理</span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level" aria-expanded="false" style="{{ groupACT }}">
+                <li><a href="{% url 'zabbix:group-list' %}">组管理</a></li>
+                <li><a href="apps-tickets.html">主机管理</a></li>
+                <li><a href="apps-taskboard.html">Task Board</a></li>
+                <li><a href="apps-task-detail.html">Task Detail</a></li>
+                <li><a href="apps-contacts.html">Contacts</a></li>
+                <li><a href="apps-projects.html">Projects</a></li>
+                <li><a href="apps-companies.html">Companies</a></li>
+                <li><a href="apps-file-manager.html">File Manager</a></li>
             </ul>
-        </div>
+        </li>
 
-    </div>
+        <li>
+            <a href="javascript: void(0);"><i class="fi-mail"></i><span>模板管理</span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li><a href="email-inbox.html">模板列表</a></li>
+                <li><a href="email-read.html">应用集管理</a></li>
+                <li><a href="email-read.html">Items管理</a></li>
+                <li><a href="email-compose.html">Active管理</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript: void(0);"><i class="fi-layout"></i><span>自动发现</span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li><a href="layouts-menucollapsed.html">发现规则</a></li>
+                <li><a href="layouts-menucollapsed.html">主机状态</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span>维护模式</span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li><a href="ui-typography.html">维护规则</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript: void(0);"><i class="mdi mdi-account-circle"></i><span>用户和用户组</span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li><a href="chart-flot.html">用户管理</a></li>
+                <li><a href="chart-morris.html">用户组</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript: void(0);"><i class="fi-share"></i><span>系统配置</span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level" aria-expanded="false" style="{{ systemACT }}">
+                <li class="{{ localuserACT }}"><a href="{% url 'sys:user' %}">本地用户</a></li>
+                <li><a href="chart-morris.html">Zabbix数据源</a></li>
+            </ul>
+        </li>
+    </ul>
 
 </div>
+<!-- Sidebar -->

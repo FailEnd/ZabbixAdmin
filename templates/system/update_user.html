@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <!-- Start Page content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card-box">
+                        <h4 class="header-title m-t-0">创建用户</h4>
+                        <p class="text-muted font-14 m-b-20">
+                        </p>
+                        <form action="#" method="post">
+                           {% csrf_token %}
+                            {% bootstrap_field form.username layout="horizontal" %}
+                            {% bootstrap_field form.email layout="horizontal" %}
+                            {% bootstrap_field form.password layout="horizontal" %}
+                            <div class="form-group text-right m-b-0">
+                                <button class="btn btn-custom waves-effect waves-light" type="submit">
+                                    Submit
+                                </button>
+                                <button type="reset" class="btn btn-light waves-effect m-l-5">
+                                    Cancel
+                                </button>
+                            </div>
+
+                        </form>
+                    </div> <!-- end card-box -->
+                </div>
+                <!-- end col -->
+            </div>
+        </div> <!-- container -->
+    </div> <!-- content -->
+{% endblock %}
+{% block clusterjs %}
+    <script type="text/javascript" src="/static/plugins/parsleyjs/parsley.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function() {
+                $('form').parsley();
+            });
+        </script>
+
+{% endblock %}

@@ -16,8 +16,6 @@ class ZabbixApi(object):
     """
     #超时时间(5秒钟）
     TIMEOUT=5
-    DataSource = findDataSource()
-
     class FailedError(Exception):
         """
         使用Zabbix API失败时出错
@@ -45,13 +43,12 @@ class ZabbixApi(object):
             """
             super(ZabbixApi.AuthenticationFailedError,self).__init__('authenticate',reason)
 
-    def __init__(self,request_id=1,encode = 'utf-8'):
+    def __init__(self,encode = 'utf-8'):
         """
         构造函数
         :param request_id:JSON-RPC请求标识符
         """
-        self.request_id = request_id
-        self.AUTH = self.DataSource['token']
+        self.AUTH = findDataSource()
 
     # def __enter__(self):
     #     self.authenticate()
@@ -69,12 +66,12 @@ class ZabbixApi(object):
             'jsonrpc': '2.0',
             'method': method,
             'params': params,
-            'auth': self.AUTH,
-            'id': self.request_id
+            'auth': self.AUTH['token'],
+            'id': 2
         })
         headers = {'Content-Type': 'application/json-rpc'}
         try:
-            request = requests.post(self.DataSource['uri'],data=body,headers=headers,timeout=self.TIMEOUT)
+            request = requests.post(self.AUTH['uri'],data=body,headers=headers,timeout=self.TIMEOUT)
             response_json = request.json()
             if 'result' in response_json:
                 return response_json

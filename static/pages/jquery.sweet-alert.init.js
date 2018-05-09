@@ -1,9 +1,9 @@
 
 /**
- * Theme: Adminto - Admin Dashboard
- * Author: Coderthemes
- * SweetAlert
- */
+* Theme: Highdmin - Responsive Bootstrap 4 Admin Dashboard
+* Author: Coderthemes
+* SweetAlert
+*/
 
 !function ($) {
     "use strict";
@@ -16,15 +16,23 @@
 
         //Basic
         $('#sa-basic').on('click', function () {
-            swal('Any fool can use a computer').catch(swal.noop)
+            swal(
+                {
+                    title: 'Any fool can use a computer!',
+                    confirmButtonClass: 'btn btn-confirm mt-2'
+                }
+            ).catch(swal.noop)
         });
 
         //A title with a text under
         $('#sa-title').click(function () {
             swal(
-                'The Internet?',
-                'That thing is still around?',
-                'question'
+                {
+                    title: "The Internet?",
+                    text: 'That thing is still around?',
+                    type: 'question',
+                    confirmButtonClass: 'btn btn-confirm mt-2'
+                }
             )
         });
 
@@ -35,7 +43,7 @@
                     title: 'Good job!',
                     text: 'You clicked the button!',
                     type: 'success',
-                    confirmButtonColor: '#4fa7f3'
+                    confirmButtonClass: 'btn btn-confirm mt-2'
                 }
             )
         });
@@ -47,14 +55,16 @@
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#4fa7f3',
-                cancelButtonColor: '#d57171',
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
                 confirmButtonText: 'Yes, delete it!'
             }).then(function () {
-                swal(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
+                swal({
+                        title: 'Deleted !',
+                        text: "Your file has been deleted",
+                        type: 'success',
+                        confirmButtonClass: 'btn btn-confirm mt-2'
+                    }
                 )
             })
         });
@@ -68,23 +78,27 @@
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'No, cancel!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger m-l-10',
+                confirmButtonClass: 'btn btn-success mt-2',
+                cancelButtonClass: 'btn btn-danger ml-2 mt-2',
                 buttonsStyling: false
             }).then(function () {
-                swal(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
+                swal({
+                    title: 'Deleted !',
+                    text: "Your file has been deleted",
+                    type: 'success',
+                    confirmButtonClass: 'btn btn-confirm mt-2'
+                }
                 )
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
                 if (dismiss === 'cancel') {
-                    swal(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
+                    swal({
+                        title: 'Cancelled',
+                        text: "Your imaginary file is safe :)",
+                        type: 'error',
+                        confirmButtonClass: 'btn btn-confirm mt-2'
+                    }
                     )
                 }
             })
@@ -97,7 +111,8 @@
                 text: 'Modal with a custom image.',
                 imageUrl: 'assets/images/logo_sm.png',
                 imageHeight: 50,
-                animation: false
+                animation: false,
+                confirmButtonClass: 'btn btn-confirm mt-2'
             })
         });
 
@@ -106,7 +121,8 @@
             swal({
                 title: 'Auto close alert!',
                 text: 'I will close in 2 seconds.',
-                timer: 2000
+                timer: 2000,
+                confirmButtonClass: 'btn btn-confirm mt-2'
             }).then(
                 function () {
                 },
@@ -129,8 +145,8 @@
                 'and other HTML tags',
                 showCloseButton: true,
                 showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger m-l-10',
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
                 confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
                 cancelButtonText: '<i class="fa fa-thumbs-down"></i>'
             })
@@ -142,6 +158,7 @@
                 title: 'Custom width, padding, background.',
                 width: 600,
                 padding: 100,
+                confirmButtonClass: 'btn btn-confirm mt-2',
                 background: '#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)'
             })
         });
@@ -154,8 +171,8 @@
                 showCancelButton: true,
                 confirmButtonText: 'Submit',
                 showLoaderOnConfirm: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger m-l-10',
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
                 preConfirm: function (email) {
                     return new Promise(function (resolve, reject) {
                         setTimeout(function () {
@@ -172,7 +189,8 @@
                 swal({
                     type: 'success',
                     title: 'Ajax request finished!',
-                    html: 'Submitted email: ' + email
+                    html: 'Submitted email: ' + email,
+                    confirmButtonClass: 'btn btn-confirm mt-2'
                 })
             })
         });
@@ -184,7 +202,9 @@
                 confirmButtonText: 'Next &rarr;',
                 showCancelButton: true,
                 animation: false,
-                progressSteps: ['1', '2', '3']
+                progressSteps: ['1', '2', '3'],
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2'
             })
 
             var steps = [
@@ -200,6 +220,7 @@
                 swal.resetDefaults()
                 swal({
                     title: 'All done!',
+                    confirmButtonClass: 'btn btn-confirm mt-2',
                     html: 'Your answers: <pre>' +
                     JSON.stringify(result) +
                     '</pre>',
@@ -216,6 +237,7 @@
             swal.queue([{
                 title: 'Your public IP',
                 confirmButtonText: 'Show my public IP',
+                confirmButtonClass: 'btn btn-confirm mt-2',
                 text: 'Your public IP will be received ' +
                 'via AJAX request',
                 showLoaderOnConfirm: true,

@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% block cluster_css %}
+    <!-- Sweet Alert css -->
+    <link href="/static/plugins/sweet-alert/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+    <!-- Start Page content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        <h4 class="m-t-0 header-title">Filtering</h4>
+                        <p class="text-muted m-b-30 font-13">
+                            include filtering in your FooTable.
+                        </p>
+                        {% include '_message.html' %}
+                        <div class="mb-3" >
+                            <button class="btn btn-icon waves-effect waves-light btn-custom m-b-1" onclick="doCreate()"> <i class="fa fa-plus"></i> </button>
+                            <div class="row" style="float: right;margin-right:0px;margin-bottom: 5px">
+                                <div class="col-12 text-sm-center form-inline">
+                                    <div class="form-group mr-2">
+                                        <select id="filter_key"  name="" class="custom-select">
+                                            <option  value="name">组名</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="filter_value" style="border-radius:5px;border: 0px;border: 1px solid #ced4da;height: 38px" type="text" placeholder="Search" autocomplete="on">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle m-b-0" data-page-size="7">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <div class="checkbox checkbox-info checkbox-circle">
+                                        <input type="checkbox" class="group-checkable" data-set="#temptable .checkboxes" id="tempcheckbox">
+                                        <label for="tempcheckbox"></label>
+                                    </div>
+                                </th>
+                                <th data-toggle="true">名称</th>
+                                <th>组ID</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for group in result %}
+                                <tr>
+                                    <td>
+                                        <div class="checkbox checkbox-info checkbox-circle">
+                                            <input type="checkbox" id="{{ group.groupid }}" class="checkboxes">
+                                            <label for="{{ group.groupid }}"></label>
+                                        </div>
+                                    </td>
+                                    <td>{{ group.name }}</td>
+                                    <td>{{ group.groupid }}</td>
+                                    <td>
+                                        <button class="btn btn-icon waves-effect waves-light btn-custom m-b-1" onclick="doUpdate({{ group.groupid }})"> <i class="fa fa-pencil"></i> </button>
+                                        <button class="btn btn-icon waves-effect waves-light btn-danger" onclick="doDelete({{ group.groupid }})"> <i class="fa fa-close"></i> </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr class="active">
+                                <td colspan="5">
+                                    <div class="text-right">
+                                        {% include 'page.html' %}
+                                    </div>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div> <!-- container -->
+    </div> <!-- content -->
+{% endblock %}
+{% block clusterjs %}
+    <!-- Sweet Alert Js  -->
+    <script src="/static/plugins/sweet-alert/sweetalert2.min.js"></script>
+{% endblock %}
+{% block myjs %}
+    <script>
+
+        $("#tempcheckbox").click(function(){
+            if(this.checked) {
+                $("input[type=checkbox][class=checkboxes]").prop("checked", $(this).is(":checked"));
+                $.uniform.update();
+            }
+            else {
+                $("input[type=checkbox][class=checkboxes]").prop("checked", false);
+                $.uniform.update();
+            }
+        });
+
+        function doUpdate(groupid) {
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    }
+                }
+            });
+            $.get('{% url 'zabbix:group-operation' %}',{"groupid":groupid}, function(response) {
+                swal({
+                    title: '更新主机组',
+                    input: 'text',
+                    showCancelButton: true,
+                    confirmButtonText: 'Submit',
+                    showLoaderOnConfirm: true,
+                    confirmButtonClass: 'btn btn-confirm mt-2',
+                    cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
+                    inputValue: response,
+                    preConfirm: function (inputValue) {
+                        return new Promise(function () {
+                            setTimeout(function () {
+                                $.ajax({
+                                    url: '{% url 'zabbix:group-operation' %}',
+                                    type: 'PUT',
+                                    dataType: 'json',
+                                    data: {'groupid':groupid,'groupname':inputValue},
+                                    success: function (data) {
+                                        var result = data['isSuccess'];
+                                        if (result == true){
+                                            swal({
+                                                type: "success",
+                                                title: "更新成功",
+                                                confirmButtonClass: 'btn btn-confirm mt-2'
+                                            });
+                                        }
+                                        else {
+                                            swal({
+                                                type: "error",
+                                                title: '更新失败',
+                                                html: data['result'],
+                                                confirmButtonClass: 'btn btn-confirm mt-2'
+                                            });
+                                        }
+                                    }
+                                })
+                            }, 1000)
+                        })
+                    },
+                    allowOutsideClick: false
+                })
+            });
+        }
+
+        function doCreate() {
+            swal({
+                title: '创建主机组',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                showLoaderOnConfirm: true,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
+                preConfirm: function (inputValue) {
+                    return new Promise(function () {
+                        setTimeout(function () {
+                            $.ajax({
+                                url: '{% url 'zabbix:group-operation' %}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {'groupname':inputValue,csrfmiddlewaretoken:'{{ csrf_token }}'},
+                                success: function (data) {
+                                    var result = data['isSuccess'];
+                                    if (result == true){
+                                        swal({
+                                            type: "success",
+                                            title: "创建成功",
+                                            confirmButtonClass: 'btn btn-confirm mt-2'
+                                        });
+                                    }
+                                    else {
+                                        swal({
+                                            type: "error",
+                                            title: '创建失败',
+                                            html: data['result'],
+                                            confirmButtonClass: 'btn btn-confirm mt-2'
+                                        });
+                                    }
+                                }
+                            })
+                        }, 1000)
+                    })
+                },
+                allowOutsideClick: false
+            })
+        }
+
+        function doDelete(groupid) {
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    }
+                }
+            });
+
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function () {
+                $.ajax({
+                    url: '{% url 'zabbix:group-operation' %}',
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: {'groupid':groupid},
+                    success: function (data) {
+                        var result = data['isSuccess'];
+                        if (result == true){
+                            swal({
+                                type: "success",
+                                title: "删除成功",
+                                confirmButtonClass: 'btn btn-confirm mt-2'
+                            });
+                        }
+                        else {
+                            swal({
+                                type: "error",
+                                title: '删除失败',
+                                html: data['result'],
+                                confirmButtonClass: 'btn btn-confirm mt-2'
+                            });
+                        }
+                    }
+                })
+            })
+        }
+
+        {#搜索#}
+        $("#filter_value").keydown(function (e) {
+
+            if (e.keyCode==13){
+                select_info()
+            }
+        });
+        function select_info() {
+            var filter_key = document.getElementById("filter_key").value;
+            var filter_value = document.getElementById("filter_value").value;
+            window.location.href = "{% url 'zabbix:group-list' %}"+ '?filter_key='+filter_key+'&filter_value='+filter_value
+        }
+    </script>
+{% endblock %}

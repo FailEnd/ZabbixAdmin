@@ -1,5 +1,5 @@
 /**
-* Theme: Adminto Dashboard
+* Theme: Highdmin - Responsive Bootstrap 4 Admin Dashboard
 * Author: Coderthemes
 * Chartist chart
 */
@@ -854,5 +854,4 @@ chart.on('created', function() {
   }
   window.__anim0987432598723 = setTimeout(chart.update.bind(chart), 8000);
 });
-
 

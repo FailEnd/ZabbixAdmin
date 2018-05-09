@@ -5,11 +5,11 @@
 # @File    : urls.py
 # @Software: PyCharm
 from django.conf.urls import url
-from .views import GroupListView,ChangeGroupView
+from .views import GroupListView,GroupView
 
 app_name = 'zabbix'
 
 urlpatterns = [
     url(r"^group-list/$",GroupListView.as_view(),name="group-list"),
-    url(r"^group-change/$",ChangeGroupView.as_view(),name="group-change")
+    url(r"^group-operation/$",GroupView.as_view(),name="group-operation")
 ]

@@ -1,5 +1,5 @@
 /**
-* Theme: Adminto Admin Template
+* Theme: Highdmin - Responsive Bootstrap 4 Admin Dashboard
 * Author: Coderthemes
 * Google Maps
 */
@@ -9,7 +9,14 @@
 
     var GoogleMap = function() {};
 
-
+    //creates basic map
+    GoogleMap.prototype.createBasic = function($container) {
+        return new GMaps({
+          div: $container,
+          lat: -12.043333,
+          lng: -77.028333
+        });
+    },
     //creates map with markers
     GoogleMap.prototype.createMarkers = function($container) {
         var map = new GMaps({
@@ -44,6 +51,25 @@
 
         return map;
     },
+    //creates map with polygone
+    GoogleMap.prototype.createWithPolygon = function ($container, $path) {
+      var map = new GMaps({
+        div: $container,
+        lat: -12.043333,
+        lng: -77.028333
+      });
+
+      var polygon = map.drawPolygon({
+        paths: $path,
+        strokeColor: '#BBD8E9',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        fillColor: '#BBD8E9',
+        fillOpacity: 0.6
+      });
+
+      return map;
+    },
 
     //creates map with overlay
     GoogleMap.prototype.createWithOverlay = function ($container) {
@@ -70,6 +96,35 @@
         lat : $lat,
         lng : $lng
       });
+    },
+    //Routes
+    GoogleMap.prototype.createWithRoutes = function ($container, $lat, $lng) {
+      var map = new GMaps({
+        div: $container,
+        lat: $lat,
+        lng: $lng
+      });
+      $('#start_travel').click(function(e){
+        e.preventDefault();
+        map.travelRoute({
+          origin: [-12.044012922866312, -77.02470665341184],
+          destination: [-12.090814532191756, -77.02271108990476],
+          travelMode: 'driving',
+          step: function(e){
+            $('#instructions').append('<li>'+e.instructions+'</li>');
+            $('#instructions li:eq('+e.step_number+')').delay(450*e.step_number).fadeIn(200, function(){
+              map.setCenter(e.end_location.lat(), e.end_location.lng());
+              map.drawPolyline({
+                path: e.path,
+                strokeColor: '#131540',
+                strokeOpacity: 0.6,
+                strokeWeight: 6
+              });
+            });
+          }
+        });
+      });
+      return map;
     },
     //Type
     GoogleMap.prototype.createMapByType = function ($container, $lat, $lng) {
@@ -132,8 +187,17 @@
     GoogleMap.prototype.init = function() {
       var $this = this;
       $(document).ready(function(){
+        //creating basic map
+        $this.createBasic('#gmaps-basic'),
         //with sample markers
         $this.createMarkers('#gmaps-markers');
+
+        //polygon
+        var path = [[-12.040397656836609,-77.03373871559225],
+                  [-12.040248585302038,-77.03993927003302],
+                  [-12.050047116528843,-77.02448169303511],
+                  [-12.044804866577001,-77.02154422636042]];
+        $this.createWithPolygon('#gmaps-polygons', path);
 
         //overlay
         $this.createWithOverlay('#gmaps-overlay');
@@ -141,9 +205,14 @@
         //street view
         $this.createWithStreetview('#panorama',  42.3455, -71.0983);
 
+        //routes
+        $this.createWithRoutes('#gmaps-route',-12.043333, -77.028333);
+
         //types
         $this.createMapByType('#gmaps-types', -12.043333, -77.028333);
 
+        //statu
+        $this.createWithMenu('#gmaps-menu', -12.043333, -77.028333);
       });
     },
     //init

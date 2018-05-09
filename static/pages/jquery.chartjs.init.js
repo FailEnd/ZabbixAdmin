@@ -1,5 +1,5 @@
 /**
-Template Name: Adminto Dashboard
+Template Name: Highdmin - Responsive Bootstrap 4 Admin Dashboard
 Author: CoderThemes
 Email: coderthemes@gmail.com
 File: Chartjs
@@ -50,43 +50,62 @@ File: Chartjs
         // run function - render chart at first load
         generateChart();
     },
+
     //init
     ChartJs.prototype.init = function() {
         //creating lineChart
         var lineChart = {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September"],
-            datasets: [
-                {
-                    label: "Sales Analytics",
-                    fill: false,
-                    lineTension: 0.1,
-                    backgroundColor: "#10c469",
-                    borderColor: "#10c469",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "#10c469",
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "#10c469",
-                    pointHoverBorderColor: "#eef0f2",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: [65, 59, 80, 81, 56, 55, 40, 35, 30]
-                }
-            ]
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
+            datasets: [{
+                label: "Conversion Rate",
+                fill: false,
+                backgroundColor: '#4eb7eb',
+                borderColor: '#4eb7eb',
+                data: [44,60,-33,58,-4,57,-89,60,-33,58]
+            }, {
+                label: "Average Sale Value",
+                fill: false,
+                backgroundColor: '#e3eaef',
+                borderColor: "#e3eaef",
+                borderDash: [5, 5],
+                data: [-68,41,86,-49,2,65,-64,86,-49,2]
+            }]
         };
 
         var lineOpts = {
+            responsive: true,
+            // title:{
+            //     display:true,
+            //     text:'Chart.js Line Chart'
+            // },
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
             scales: {
+                xAxes: [{
+                    display: true,
+                    // scaleLabel: {
+                    //     display: true,
+                    //     labelString: 'Month'
+                    // },
+                    gridLines: {
+                        color: "rgba(0,0,0,0.1)"
+                    }
+                }],
                 yAxes: [{
+                    gridLines: {
+                        color: "rgba(255,255,255,0.05)",
+                        fontColor: '#fff'
+                    },
                     ticks: {
                         max: 100,
-                        min: 20,
-                        stepSize: 10
+                        min: -100,
+                        stepSize: 20
                     }
                 }]
             }
@@ -97,22 +116,28 @@ File: Chartjs
         //donut chart
         var donutChart = {
             labels: [
-                "Desktops",
-                "Tablets",
-                "Mobiles"
+                "Bitcoin",
+                "Ethereum",
+                "Litecoin",
+                "Bitcoin Cash",
+                "Cardano"
             ],
             datasets: [
                 {
-                    data: [300, 50, 100],
+                    data: [80, 50, 100,121,77],
                     backgroundColor: [
-                        "#188ae2",
-                        "#10c469",
-                        "#f9c851"
+                        "#02c0ce",
+                        "#4eb7eb",
+                        "#e3eaef",
+                        "#2d7bf4",
+                        "#98a6ad"
                     ],
                     hoverBackgroundColor: [
-                        "#188ae2",
-                        "#10c469",
-                        "#f9c851"
+                        "#02c0ce",
+                        "#4eb7eb",
+                        "#e3eaef",
+                        "#2d7bf4",
+                        "#98a6ad"
                     ],
                     hoverBorderColor: "#fff"
                 }]
@@ -125,20 +150,26 @@ File: Chartjs
             labels: [
                 "Desktops",
                 "Tablets",
-                "Mobiles"
+                "Mobiles",
+                "Mobiles",
+                "Tablets"
             ],
             datasets: [
                 {
-                    data: [300, 50, 100],
+                    data: [80, 50, 100,121,77],
                     backgroundColor: [
-                        "#ff8acc",
-                        "#5b69bc",
-                        "#f9c851"
+                        "#02c0ce",
+                        "#4eb7eb",
+                        "#e3eaef",
+                        "#2d7bf4",
+                        "#98a6ad"
                     ],
                     hoverBackgroundColor: [
-                        "#ff8acc",
-                        "#5b69bc",
-                        "#f9c851"
+                        "#02c0ce",
+                        "#4eb7eb",
+                        "#e3eaef",
+                        "#2d7bf4",
+                        "#98a6ad"
                     ],
                     hoverBorderColor: "#fff"
                 }]
@@ -152,11 +183,11 @@ File: Chartjs
             datasets: [
                 {
                     label: "Sales Analytics",
-                    backgroundColor: "rgba(24, 138, 226, 0.3)",
-                    borderColor: "#188ae2",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(24, 138, 226,0.6)",
-                    hoverBorderColor: "#188ae2",
+                    backgroundColor: "rgba(2, 192, 206, 0.3)",
+                    borderColor: "#02c0ce",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(2, 192, 206, 0.7)",
+                    hoverBorderColor: "#02c0ce",
                     data: [65, 59, 80, 81, 56, 55, 40,20]
                 }
             ]
@@ -199,15 +230,13 @@ File: Chartjs
                     11,
                     16,
                     7,
-                    3,
-                    14
+                    18
                 ],
                 backgroundColor: [
-                    "#ff8acc",
-                    "#5b69bc",
-                    "#f9c851",
-                    "#E7E9ED",
-                    "#10c469"
+                    "#297ef6",
+                    "#45bbe0",
+                    "#ebeff2",
+                    "#1ea69a"
                 ],
                 label: 'My dataset', // for legend
                 hoverBorderColor: "#fff"
@@ -216,8 +245,7 @@ File: Chartjs
                 "Series 1",
                 "Series 2",
                 "Series 3",
-                "Series 4",
-                "Series 5"
+                "Series 4"
             ]
         };
         this.respChart($("#polarArea"),'PolarArea',polarChart);
@@ -231,3 +259,4 @@ function($) {
     "use strict";
     $.ChartJs.init()
 }(window.jQuery);
+

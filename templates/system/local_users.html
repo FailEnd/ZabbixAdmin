@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block cluster_css %}
+    <!-- Sweet Alert css -->
+    <link href="/static/plugins/sweet-alert/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+    <!-- Start Page content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        <h4 class="m-t-0 header-title">Filtering</h4>
+                        <p class="text-muted m-b-30 font-13">
+                            include filtering in your FooTable.
+                        </p>
+                        {% include 'message.html' %}
+                        <div class="mb-3" >
+                            <div class="btn-group focus-btn-group">
+                                <a href="{% url 'sys:user-create' %}">
+                                    <button class="btn btn-icon waves-effect waves-light btn-success m-b-5">
+                                        <span class="fa fa-plus"></span></button></a>
+                            </div>
+                            <div class="row" style="float: right;margin-right:0px;margin-bottom: 5px">
+                                <div class="col-12 text-sm-center form-inline">
+                                    <div class="form-group mr-2">
+                                        <select id="filter_key"  name="" class="custom-select">
+                                            <option  value="username">用户名</option>
+                                            <option  value="email">邮箱地址</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="filter_value" style="border-radius:5px;border: 0px;border: 1px solid #ced4da;height: 38px" type="text" placeholder="Search" autocomplete="on">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle m-b-0" data-page-size="7">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <div class="checkbox checkbox-info checkbox-circle">
+                                        <input type="checkbox" class="group-checkable" data-set="#temptable .checkboxes" id="tempcheckbox">
+                                        <label for="tempcheckbox"></label>
+                                    </div>
+                                </th>
+                                <th data-toggle="true">用户名</th>
+                                <th>邮箱地址</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in result %}
+                                <tr>
+                                    <td>
+                                        <div class="checkbox checkbox-info checkbox-circle">
+                                            <input type="checkbox" id="{{ user.id }}" class="checkboxes">
+                                            <label for="{{ user.id }}"></label>
+                                        </div>
+                                    </td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <a class="btn btn-icon waves-effect waves-light btn-custom m-b-5" href="{% url 'sys:user-update' user.id %}"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-icon waves-effect waves-light btn-danger" onclick="doDelete({{ user.id }})"> <i class="fa fa-close"></i> </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr class="active">
+                                <td colspan="5">
+                                    <div class="text-right">
+                                        {% include 'page.html' %}
+                                    </div>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div> <!-- container -->
+    </div> <!-- content -->
+{% endblock %}
+{% block clusterjs %}
+    <!-- Sweet Alert Js  -->
+    <script src="/static/plugins/sweet-alert/sweetalert2.min.js"></script>
+{% endblock %}
+{% block myjs %}
+    <script>
+
+        $("#tempcheckbox").click(function(){
+            if(this.checked) {
+                $("input[type=checkbox][class=checkboxes]").prop("checked", $(this).is(":checked"));
+                $.uniform.update();
+            }
+            else {
+                $("input[type=checkbox][class=checkboxes]").prop("checked", false);
+                $.uniform.update();
+            }
+        });
+
+        function doDelete(userid) {
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    }
+                }
+            });
+            swal({
+                title: '确定删除?',
+                text: "你将删除这个账号!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                cancelButtonClass: 'btn btn-cancel ml-2 mt-2',
+                confirmButtonText: '确定!',
+                cancelButtonText:'取消'
+            }).then(function () {
+                $.ajax({
+                    url: '{% url 'sys:user-delete' %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {'userid':userid},
+                    success: function () {
+                        swal({
+                            type: "success",
+                            title: "删除成功",
+                            confirmButtonClass: 'btn btn-confirm mt-2'
+                        });
+                    }
+                })
+            })
+        }
+
+        {#搜索#}
+        $("#filter_value").keydown(function (e) {
+
+            if (e.keyCode==13){
+                select_info()
+            }
+        });
+        function select_info() {
+            var filter_key = document.getElementById("filter_key").value;
+            var filter_value = document.getElementById("filter_value").value;
+            window.location.href = "{% url 'sys:user' %}"+ '?filter_key='+filter_key+'&filter_value='+filter_value
+        }
+    </script>
+{% endblock %}

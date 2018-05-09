@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Start Page content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card-box">
+                        <h4 class="header-title m-t-0">创建用户</h4>
+                        <p class="text-muted font-14 m-b-20">
+                        </p>
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="userName">用户名<span class="text-danger">*</span></label>
+                                <input type="text" name="username" parsley-trigger="change" required
+                                       placeholder="Enter user name" class="form-control" id="userName">
+                            </div>
+                            <div class="form-group">
+                                <label for="emailAddress">邮箱地址<span class="text-danger">*</span></label>
+                                <input type="email" name="email" parsley-trigger="change" required
+                                       placeholder="Enter email" class="form-control" id="emailAddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="pass1">密码<span class="text-danger">*</span></label>
+                                <input id="pass1" type="password" placeholder="Password" required
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="passWord2">确认密码<span class="text-danger">*</span></label>
+                                <input data-parsley-equalto="#pass1" type="password" required
+                                       placeholder="Password" class="form-control" id="passWord2">
+                            </div>
+
+                            <div class="form-group text-right m-b-0">
+                                <button class="btn btn-custom waves-effect waves-light" type="submit">
+                                    Submit
+                                </button>
+                                <button type="reset" class="btn btn-light waves-effect m-l-5">
+                                    Cancel
+                                </button>
+                            </div>
+
+                        </form>
+                    </div> <!-- end card-box -->
+                </div>
+                <!-- end col -->
+            </div>
+        </div> <!-- container -->
+    </div> <!-- content -->
+{% endblock %}
+{% block clusterjs %}
+    <script type="text/javascript" src="/static/plugins/parsleyjs/parsley.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function() {
+                $('form').parsley();
+            });
+        </script>
+
+{% endblock %}

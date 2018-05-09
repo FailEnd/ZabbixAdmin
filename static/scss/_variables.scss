@@ -1,46 +1,66 @@
 
-
-$custom: #71b6f9;
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
 
 
 // Color variables
 
+$custom: #02c0ce;
+
 $white: #ffffff;
-
-
-$primary: #188ae2;
-$secondary: #727b84;
-$success: #10c469;
-$info: #35b8e0;
-$warning: #f9c851;
-$danger: #ff5b5b;
-$purple: #5b69bc;
-$pink: #ff8acc;
-$inverse: #3b3e47;
+$primary: #2d7bf4;
+$secondary: #9a9a9a;
+$success: #0acf97;
+$info: #4eb7eb;
+$warning: #f9bc0b;
+$danger: #f1556c;
+$purple: #777edd;
+$pink: #ff679b;
 $muted: #98a6ad;
-$light: #eeeeee;
-$dark: #435966;
-$lightdark3: #333333;
-$lightdark4: #444444;
-$lightdark5: #555555;
-$lightdark7: #797979;
-$light5: #ebeff2;
+$light: #e3eaef;
 $light3: #f3f3f3;
-$light9: #f9f9f9;
-$light-alt: #fafafa;
-$lightdark-alt: #cccccc;
-$lightdark: #f4f8fb;
-$lightgray: #7a8c9a;
+$light7: #797979;
+$dark: #313a46;
+
+
+// Body Background
+$bg-body: #f3f6f8;
+
+
+// Shadow
+$shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
+$shadow-lg: 0 0 24px 0 rgba(0, 0, 0, 0.15), 0 1px 0 0 rgba(0, 0, 0, 0.1);
+
+
+//Background left-sidebar
+$bg-leftbar: #ffffff;
+
+
+//Background left-sidebar Dark
+$bg-leftbar-dark: #313541;
+$bg-leftbar-menu-color: #7c8e9a;
+
+
+// Leftbar width
+$leftbar-width: 240px;
+
+
+// Small Leftbar width
+$leftbar-width-sm: 170px;
 
 
 // Width variables
 $width: 100%;
 
+
 // Height variables
 $height: 100%;
 
-$base-font-size: 14px;
 
 //Font variables
 $font-primary: 'Roboto', sans-serif;
-$font-secondary:  'Karla', sans-serif;
+$font-secondary: 'Rubik', sans-serif;
+
+
+//Font Base
+$font-size-base: 14px;
