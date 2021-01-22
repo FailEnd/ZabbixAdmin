@@ -1,4 +1,4 @@
-django == 1.11
+django == 1.11.29
 pymongo == 3.6.1
 django-bootstrap4 == 0.0.6
 requests == 2.11.1
